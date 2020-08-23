@@ -2144,9 +2144,9 @@ modbus_t *modbus_mm_open(const char *device,
     }
     modbus_set_error_recovery(ctx, MODBUS_ERROR_RECOVERY_LINK | MODBUS_ERROR_RECOVERY_PROTOCOL);
     modbus_set_response_timeout(ctx, to_sec, to_usec);
-    modbus_enable_rpi(ctx, TRUE);
-    modbus_configure_rpi_bcm_pins(ctx, de, re);
 	if (de >= 0 && re >= 0) {
+		modbus_enable_rpi(ctx, TRUE);
+		modbus_configure_rpi_bcm_pins(ctx, de, re);
 		if (modbus_rpi_pin_export_direction(ctx)) {
 			modbus_mm_close(ctx);
 			errno = EINVAL;
