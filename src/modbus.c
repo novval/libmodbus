@@ -2134,7 +2134,7 @@ int modbus_rpi_pin_unexport_direction(modbus_t *ctx)
 
 modbus_t *modbus_mm_open(const char *device,
                          int baud, char parity, int data_bit, int stop_bit,
-                         uint8_t de, uint8_t re,
+                         int de, int re,
                          uint32_t to_sec, uint32_t to_usec)
 {
     modbus_t *ctx = NULL;
@@ -2146,11 +2146,13 @@ modbus_t *modbus_mm_open(const char *device,
     modbus_set_response_timeout(ctx, to_sec, to_usec);
     modbus_enable_rpi(ctx, TRUE);
     modbus_configure_rpi_bcm_pins(ctx, de, re);
-    if (modbus_rpi_pin_export_direction(ctx)) {
-        modbus_mm_close(ctx);
-        errno = EINVAL;
-        return NULL;
-    }
+	if (de >= 0 && re >= 0) {
+		if (modbus_rpi_pin_export_direction(ctx)) {
+			modbus_mm_close(ctx);
+			errno = EINVAL;
+			return NULL;
+		}
+	}
     if (modbus_connect(ctx) == -1)
     {
         int _errno = errno;

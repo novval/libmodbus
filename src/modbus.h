@@ -250,7 +250,7 @@ MODBUS_API int modbus_rpi_pin_unexport_direction(modbus_t *ctx);
 
 MODBUS_API modbus_t *modbus_mm_open(const char *device,
                                     int baud, char parity, int data_bit, int stop_bit,
-                                    uint8_t de, uint8_t re,
+                                    int de, int re,
                                     uint32_t to_sec, uint32_t to_usec);
 MODBUS_API int modbus_mm_close(modbus_t *ctx);
 
